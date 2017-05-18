@@ -1,23 +1,18 @@
 from django.contrib import admin
-from .models import Assessment, Result, Iteration, Course
+from .models import Solves, Flag, Challenge
 
-class AssessmentAdmin(admin.ModelAdmin):
-    queryset = Assessment.objects.all()
-    list_display = ('start_date', 'description', 'end_date', 'iteration', 'title', 'id',)
+class SolvesAdmin(admin.ModelAdmin):
+    queryset = Solves.objects.all()
+    list_display = ('id', 'challenge', 'team',)
 
-class ResultAdmin(admin.ModelAdmin):
-    queryset = Result.objects.all()
-    list_display = ('submitted', 'assessment', 'id', 'score', 'user',)
+class FlagAdmin(admin.ModelAdmin):
+    queryset = Flag.objects.all()
+    list_display = ('id', 'flag_is_regex', 'flags', 'chal',)
 
-class IterationAdmin(admin.ModelAdmin):
-    queryset = Iteration.objects.all()
-    list_display = ('start_date', 'description', 'end_date', 'course', 'id',)
+class ChallengeAdmin(admin.ModelAdmin):
+    queryset = Challenge.objects.all()
+    list_display = ('category', 'name', 'value', 'id', 'description', 'hidden',)
 
-class CourseAdmin(admin.ModelAdmin):
-    queryset = Course.objects.all()
-    list_display = ('name', 'description', 'id',)
-
-admin.site.register(Assessment, AssessmentAdmin)
-admin.site.register(Result, ResultAdmin)
-admin.site.register(Iteration, IterationAdmin)
-admin.site.register(Course, CourseAdmin)
+admin.site.register(Solves, SolvesAdmin)
+admin.site.register(Flag, FlagAdmin)
+admin.site.register(Challenge, ChallengeAdmin)

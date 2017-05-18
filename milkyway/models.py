@@ -1,33 +1,28 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 import uuid
 
-class Course(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=64)
-    description = models.TextField(blank=True)
 
-class Iteration(models.Model):
+class Challenge(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=80)
     description = models.TextField(blank=True)
-    course = models.ForeignKey(Course)
-    users = models.ManyToManyField(User)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    value = models.IntegerField(default=10)
+    category = models.CharField(max_length=80)
+    hidden = models.BooleanField(default=False)
 
-class Assessment(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=64)
-    description = models.TextField(blank=True)
-    iteration = models.ForeignKey(Iteration)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    def __repr__(self):
+        return '<chal %r>' % self.name
 
-class Result(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User)
-    assessment = models.ForeignKey(Assessment)
-    submitted = models.DateTimeField(blank=True, null=True)
-    score = models.FloatField()
+
+class Flag(models.Model):
+    chal = models.ForeignKey(Challenge)
+    flags = models.TextField(blank=True)
+    flag_is_regex = models.BooleanField(default=False)
+
+
+class Solves(models.Model):
+    challenge = models.ForeignKey(Challenge)
+    team = models.ForeignKey(Group)

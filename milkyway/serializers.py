@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from milkyway.models import Assessment, Result, Iteration, Course
+from milkyway.models import Solves, Flag, Challenge
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,22 +13,17 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'groups',)
 
-class AssessmentSerializer(serializers.HyperlinkedModelSerializer):
+class SolvesSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Assessment
-        fields = ('start_date', 'description', 'end_date', 'iteration', 'title', 'id',)
+        model = Solves
+        fields = ('id', 'challenge', 'team',)
 
-class ResultSerializer(serializers.HyperlinkedModelSerializer):
+class FlagSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Result
-        fields = ('submitted', 'assessment', 'id', 'score', 'user',)
+        model = Flag
+        fields = ('id', 'flag_is_regex', 'flags', 'chal',)
 
-class IterationSerializer(serializers.HyperlinkedModelSerializer):
+class ChallengeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Iteration
-        fields = ('start_date', 'users', 'description', 'end_date', 'course', 'id',)
-
-class CourseSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Course
-        fields = ('name', 'description', 'id',)
+        model = Challenge
+        fields = ('category', 'name', 'value', 'id', 'description', 'hidden',)

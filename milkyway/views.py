@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from django.contrib.auth.models import User, Group
-from milkyway.serializers import UserSerializer, GroupSerializer, AssessmentSerializer, ResultSerializer, IterationSerializer, CourseSerializer
-from milkyway.models import Assessment, Result, Iteration, Course
+from milkyway.serializers import UserSerializer, GroupSerializer, SolvesSerializer, FlagSerializer, ChallengeSerializer
+from milkyway.models import Solves, Flag, Challenge
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -11,18 +11,14 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 
-class AssessmentViewSet(viewsets.ModelViewSet):
-    queryset = Assessment.objects.all()
-    serializer_class = AssessmentSerializer
+class SolvesViewSet(viewsets.ModelViewSet):
+    queryset = Solves.objects.all()
+    serializer_class = SolvesSerializer
 
-class ResultViewSet(viewsets.ModelViewSet):
-    queryset = Result.objects.all()
-    serializer_class = ResultSerializer
+class FlagViewSet(viewsets.ModelViewSet):
+    queryset = Flag.objects.all()
+    serializer_class = FlagSerializer
 
-class IterationViewSet(viewsets.ModelViewSet):
-    queryset = Iteration.objects.all()
-    serializer_class = IterationSerializer
-
-class CourseViewSet(viewsets.ModelViewSet):
-    queryset = Course.objects.all()
-    serializer_class = CourseSerializer
+class ChallengeViewSet(viewsets.ModelViewSet):
+    queryset = Challenge.objects.all()
+    serializer_class = ChallengeSerializer
