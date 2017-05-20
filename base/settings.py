@@ -156,8 +156,9 @@ SECURE_BROWSER_XSS_FILTER = True
 ACCOUNT_LOGIN_REDIRECT_URL = '/team/'
 # CSRF_COOKIE_SECURE = True
 ACCOUNT_SIGNUP_REDIRECT_URL = '/team/'
+ACCOUNT_OPEN_SIGNUP = True
 
-ANYMAIL = {
+jNYMAIL = {
          # (exact settings here depend on your ESP...)
         "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY'),
         "MAILGUN_SENDER_DOMAIN": 'galaxians.org',

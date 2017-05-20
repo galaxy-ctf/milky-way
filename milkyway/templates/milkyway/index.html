@@ -1,0 +1,24 @@
+{% extends "site_base.html" %}
+
+{% load account_tags %}
+{% load i18n %}
+{% load static %}
+{% block body %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12">
+			<h1>Welcome to {{ site.title }}!</h1>
+			<p>The competition hasn't started yet, but while you wait, you can take a look at our <a href="/faq">FAQ</a>, and at the <a href="/challenges">sample challenges</a> to get ready!</p>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12" id="registration">
+			<h2>Register Now!</h2>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

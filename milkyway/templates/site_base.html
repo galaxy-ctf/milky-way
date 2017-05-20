@@ -1,0 +1,92 @@
+{% load staticfiles %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" style="100%">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>GCC CTF</title>
+		<meta property="og:title" content="GCCCTF">
+		<meta property="og:site_name" content="GCCCTF">
+		<meta property="og:image:secure_url" content="/static/images/logos/banner_big.png">
+		<meta property="og:url" content="">
+		<meta property="og:description" content="{{ site.description }}">
+		<meta property="og:type" content="website">
+		<meta name="description" content="{{ site.description }}">
+		<meta name="keywords" content="{{ site.keywords }}">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!--<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>-->
+		<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
+		<!--<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">-->
+		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.2/paper/bootstrap.min.css" rel="stylesheet">
+		<link href="{% static "main.css" %}" rel="stylesheet">
+		<meta name="apple-mobile-web-app-title" content="GCC CTF">
+		<meta name="application-name" content="GCC CTF">
+	<meta name="apple-mobile-web-app-title" content="GCC CTF">
+	<meta name="application-name" content="GCC CTF">
+	<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png?v=m2dNJx8Qd3">
+	<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=m2dNJx8Qd3">
+	<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=m2dNJx8Qd3">
+	<link rel="manifest" href="/icons/manifest.json?v=m2dNJx8Qd3">
+	<link rel="shortcut icon" href="/icons/favicon.ico?v=m2dNJx8Qd3">
+	<meta name="apple-mobile-web-app-title" content="GCC CTF">
+	<meta name="application-name" content="GCC CTF">
+	<meta name="msapplication-TileColor" content="#2c3143">
+	<meta name="msapplication-TileImage" content="/icons/mstile-144x144.png?v=m2dNJx8Qd3">
+	<meta name="msapplication-config" content="/icons/browserconfig.xml?v=m2dNJx8Qd3">
+	<meta name="theme-color" content="#2c3143"></head>
+	</head>
+<body>
+<div id="modal-holder"></div>
+
+    <div class="boxed">
+	<nav class="navbar navbar-inverse navbar-static-top no-margin" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand dropdown-toggle" href="/">
+					GCCCTF
+				</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					{% if request.user.is_authenticated %}
+					<li><a href="/about">About</a></li>
+					<li><a href="/team">Team</a></li>
+					<li><a href="/logout">Logout</a></li>
+					{% endif %}
+					{% block account_bar %}{% include "_account_bar.html" %}{% endblock %}
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+
+		<header class="page-title">
+			<div class="container">
+				<h1 id="title">{{ page.title }}</h1>
+			</div>
+		</header>
+
+		<div id="main-content" class="container">
+			{% block body %}{% endblock %}
+		</div>
+
+		<footer id="footer">
+		</footer> <!-- footer -->
+    </div>
+</body>
+</html>
