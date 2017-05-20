@@ -41,28 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'account',
     'milkyway',
-    'rest_framework',
     'corsheaders',
-    # 'anymail',
+    'anymail',
     'bootstrap3',
 
 ]
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    ),
-    'PAGE_SIZE': 10
-}
-
-JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
-}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -73,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "account.middleware.LocaleMiddleware",
+    "account.middleware.TimezoneMiddleware",
 ]
 
 CORS_ORIGIN_WHITELIST = ('localhost:10000',)
@@ -90,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "account.context_processors.account",
             ],
         },
     },
@@ -152,13 +138,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 SITE_ID = 1
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-#SESSION_COOKIE_SECURE = True
-ACCOUNT_LOGIN_REDIRECT_URL = '/team/'
+#SESSION_COOKIE_SECURE = True ACCOUNT_LOGIN_REDIRECT_URL = '/team/'
 # CSRF_COOKIE_SECURE = True
 ACCOUNT_SIGNUP_REDIRECT_URL = '/team/'
-ACCOUNT_OPEN_SIGNUP = True
 
-jNYMAIL = {
+ANYMAIL = {
          # (exact settings here depend on your ESP...)
         "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY'),
         "MAILGUN_SENDER_DOMAIN": 'galaxians.org',
