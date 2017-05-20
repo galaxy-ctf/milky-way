@@ -6,22 +6,22 @@
 
 {% block body %}
 <!-- Jumbotron -->
-    <div class="container content">
-        <hr />
-        <div class="row">
-        <!-- lists all trucks currently stored  -->
-            {% for obj in object_list %}
+	<div class="container content">
+		<hr />
+		<div class="row">
+		<!-- lists all trucks currently stored  -->
+			{% for obj in object_list %}
 			<a href="/chals/{{ obj.id }}">
-                <div class="col-sm-3 well" style="border: 1px solid grey; margin: 3em">
+				<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;">
 					<h4>{{ obj.name }}</h4>
 					<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ obj.description }}</p>
-					<span class="label label-info">points={{ obj.value }}</span>
-					<span class="label label-info">category={{ obj.category }}</span>
-                </div><!-- /.col-lg-4 -->
+					<span class="label label-success">points={{ obj.value }}</span>
+					<span class="label label-success">category={{ obj.category }}</span>
+				</div><!-- /.col-lg-4 -->
 			</a>
-            {% empty %}
-                <h2 class"text-center">No challenges currently available</h2>
-            {% endfor %}
-        </div>
-    </div>
+			{% empty %}
+				<h2 class"text-center">No challenges currently available</h2>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

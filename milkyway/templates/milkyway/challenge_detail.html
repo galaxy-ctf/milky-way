@@ -17,7 +17,6 @@
 					<h4>Solution</h4>
 					{% csrf_token %}
 					{% bootstrap_form form %}
-					<input type="hidden" name="challenge_id" value="{{object.id}}" />
 					<button type="submit" class="btn btn-primary">Submit</button>
 				</form>
 				{% else %}
@@ -30,6 +29,21 @@
 				<p>{{ object.description }}</p>
 				<span class="label label-info">points={{ object.value }}</span>
 				<span class="label label-info">category={{ object.category }}</span>
+				<h4>Hints</h4>
+				<table>
+				{% for hint in object.hint_set.all %}
+					<tr>
+						<td style="padding-bottom: 1em">
+							<button class="btn btn-secondary" onclick="javascript:$('#hint-{{ hint.id }}').css('visibility', 'initial')">
+								Hint {{ forloop.counter }}
+							</button>
+						</td>
+						<td>
+							<p id="hint-{{ hint.id }}" style="visibility: hidden; padding: 0.5em">{{ hint.text }}</p>
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
 			</div><!-- /.col-lg-4 -->
         </div>
     </div>

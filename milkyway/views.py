@@ -33,6 +33,9 @@ import uuid
 def index(request):
     return render(request, 'milkyway/index.html', {})
 
+def about(request):
+    return render(request, 'milkyway/about.html', {})
+
 class JoinTeamList(TemplateView):
     template_name = 'account/join_team.html'
 
@@ -86,31 +89,29 @@ class ChalDetailView(DetailView):
     model = Challenge
 
     def get_context_data(self, *args, **kwargs):
-        if 'form' not in kwargs:
-            kwargs['form'] = FlagForm(dict(
-                challenge_id=kwargs['object'].id,
-                flag="",
-            ))
-        return super().get_context_data(*args, **kwargs)
+        context = super().get_context_data(*args, **kwargs)
+        context['form'] = FlagForm(dict(
+            challenge_id=kwargs['object'].id,
+        ))
+        return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         # Initialize form from POST data
-        print(request.POST)
-        if 'flag' in request.POST:
-            data = {
-                'challenge_id': self.object.id,
-                'flag': '',
-            }
-            form = FlagForm(data)
-            print(form.is_valid())
-            if form.is_valid():
-                # Success!
-                messages.add_message(request, messages.SUCCESS, 'Success!')
-                return self.render_to_response(context)
-        else:
-            form = FlagForm(dict(challenge_id=self.object.id))
+        # form = FlagForm(dict(challenge_id=self.object.id))
+        # print(request.POST, context, form)
+        # if 'flag' in request.POST:
+            # data = {
+                # 'challenge_id': self.object.id,
+                # 'flag': '',
+            # }
+            # form = FlagForm(data)
+            # print(form.is_valid())
+            # if form.is_valid():
+                # # Success!
+                # messages.add_message(request, messages.SUCCESS, 'Success!')
+                # return self.render_to_response(context)
 
         context['form'] = form
         return self.render_to_response(context)

@@ -8,15 +8,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
         url(r'^$', views.index, name='index'),
-        # ex: /chals/ - urls for pages needing to view chal model itself.
-        url(r'^team/join_team/$', views.JoinTeamList.as_view(), name='chal-list'),
+        # ex: /chals/ - urls for pages needing to view chal model itself. url(r'^team/join_team/$', views.JoinTeamList.as_view(), name='chal-list'),
         url(r'^chals/$', views.ChalListView.as_view(), name='chal-list'),
-        url(r'^chals/create/$', views.ChalCreate.as_view(), name='chal-create'),
         url(r'^chals/(?P<pk>[0-9a-f-]+)/$', views.ChalDetailView.as_view(), name='chal-detail'),
-        url(r'^chals/(?P<pk>[0-9a-f-]+)/submit$', views.ChalDetailView.as_view(), name='chal-detail'),
-
-        url(r'^chals/(?P<pk>[0-9a-f-]+)/update/$', views.ChalUpdate.as_view(), name='chal-update'),
-        url(r'^chals/(?P<pk>[0-9a-f-]+)/delete/$', views.ChalDelete.as_view(), name='chal-delete'),
 
         url(r"^team/$", views.TeamList.as_view(), name="team-list"),
         url(r"^team/(?P<pk>[0-9a-f-]+)/$", views.TeamDetail.as_view(), name="team-detail"),

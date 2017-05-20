@@ -40,6 +40,11 @@ class Team(models.Model):
     def get_absolute_url(self):
         return reverse_lazy('team-detail', args=[self.id])
 
+    @property
+    def score(self):
+        points = [x.challenge.value for x in self.solves_set.all()]
+        return sum(points)
+
 @python_2_unicode_compatible
 class Account(models.Model):
 

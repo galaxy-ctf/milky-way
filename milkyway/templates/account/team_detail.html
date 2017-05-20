@@ -5,7 +5,7 @@
 
 {% block breadcrumbs %}
 <ol class="breadcrumb">
-	<li><a href="#">Home</a></li>
+	<li><a href="/">Home</a></li>
 	<li><a href="{% url 'team-list' %}">Teams</a></li>
 	<li class="active">{{ object.name }}</li>
 </ol>
@@ -14,13 +14,35 @@
 {% block body %}
 <!-- Jumbotron -->
 	<div class="row">
-		<h2>{{ object.name }}</h2>
-		<table class="table table-striped">
-			{% for obj in object_list %}
-			<tr>
-				<td><a href="{% url 'team-detail' obj.id %}">{{ obj.name }}</a></td>
-			</tr>
-			{% endfor %}
-		</table>
+		<div class="col-sm-12">
+			<h2>{{ object.name }}</h2>
+		</div>
+		<div class="col-sm-6">
+			<h3>Members</h3>
+			<table class="table table-striped">
+				<thead><tr><th>User</th></tr></thead>
+				<tbody>
+				{% for obj in object.account_set.all %}
+				<tr>
+					<td>{{ obj }}</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="col-sm-6">
+			<h3>Solved Challenges</h3>
+			<table class="table table-striped">
+				<thead><tr><th>Challenge</th><th>Points</th></tr></thead>
+				<tbody>
+				{% for obj in object.solves_set.all %}
+				<tr>
+					<td>{{ obj.challenge.name }}</td>
+					<td>{{ obj.challenge.value }}</td>
+				</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Solves, Flag, Challenge
+from .models import Solves, Flag, Challenge, Hint
 
 class SolvesAdmin(admin.ModelAdmin):
     queryset = Solves.objects.all()
@@ -13,6 +13,10 @@ class ChallengeAdmin(admin.ModelAdmin):
     queryset = Challenge.objects.all()
     list_display = ('category', 'name', 'value', 'id', 'description', 'hidden',)
 
+class HintAdmin(admin.ModelAdmin):
+    queryset = Hint.objects.all()
+
 admin.site.register(Solves, SolvesAdmin)
 admin.site.register(Flag, FlagAdmin)
 admin.site.register(Challenge, ChallengeAdmin)
+admin.site.register(Hint, HintAdmin)
