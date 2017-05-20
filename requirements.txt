@@ -4,3 +4,6 @@ markdown
 django-filter
 djangorestframework-jwt
 django-cors-headers
+django-anymail
+django-bootstrap-form
+django-bootstrap3

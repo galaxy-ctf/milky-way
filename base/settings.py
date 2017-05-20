@@ -38,9 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'account',
     'milkyway',
     'rest_framework',
     'corsheaders',
+    # 'anymail',
+    'bootstrap3',
+
 ]
 
 REST_FRAMEWORK = {
@@ -64,7 +69,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -140,5 +145,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'photos')
+MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+SITE_ID = 1
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+#SESSION_COOKIE_SECURE = True
+ACCOUNT_LOGIN_REDIRECT_URL = '/team/'
+# CSRF_COOKIE_SECURE = True
+ACCOUNT_SIGNUP_REDIRECT_URL = '/team/'
+
+ANYMAIL = {
+         # (exact settings here depend on your ESP...)
+        "MAILGUN_API_KEY": os.environ.get('MAILGUN_API_KEY'),
+        "MAILGUN_SENDER_DOMAIN": 'galaxians.org',
+
+}
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+DEFAULT_FROM_EMAIL = "ctf@galaxians.org"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'milkyway', "static"),
+]

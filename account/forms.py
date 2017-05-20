@@ -8,6 +8,7 @@ except ImportError:
     OrderedDict = None
 
 from django import forms
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import auth
@@ -18,20 +19,41 @@ from account.hooks import hookset
 from account.models import EmailAddress
 from account.utils import get_user_lookup_kwargs
 
-from directory.models import Organisation
 
 alnum_re = re.compile(r"^\w+$")
 
 
+class PasswordField(forms.CharField):
+
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", forms.PasswordInput(render_value=False))
+        self.strip = kwargs.pop("strip", True)
+        super(PasswordField, self).__init__(*args, **kwargs)
+
+    def to_python(self, value):
+        if value in self.empty_values:
+            return ""
+        value = force_text(value)
+        if self.strip:
+            value = value.strip()
+        return value
+
+
 class SignupForm(forms.Form):
 
-    password = forms.CharField(
-        label=_("Password"),
-        widget=forms.PasswordInput(render_value=False)
+    username = forms.CharField(
+        label=_("Username"),
+        max_length=30,
+        widget=forms.TextInput(),
+        required=True
     )
-    password_confirm = forms.CharField(
+    password = PasswordField(
+        label=_("Password"),
+        strip=settings.ACCOUNT_PASSWORD_STRIP,
+    )
+    password_confirm = PasswordField(
         label=_("Password (again)"),
-        widget=forms.PasswordInput(render_value=False)
+        strip=settings.ACCOUNT_PASSWORD_STRIP,
     )
     email = forms.EmailField(
         label=_("Email"),
@@ -42,6 +64,18 @@ class SignupForm(forms.Form):
         required=False,
         widget=forms.HiddenInput()
     )
+
+    def clean_username(self):
+        if not alnum_re.search(self.cleaned_data["username"]):
+            raise forms.ValidationError(_("Usernames can only contain letters, numbers and underscores."))
+        User = get_user_model()
+        lookup_kwargs = get_user_lookup_kwargs({
+            "{username}__iexact": self.cleaned_data["username"]
+        })
+        qs = User.objects.filter(**lookup_kwargs)
+        if not qs.exists():
+            return self.cleaned_data["username"]
+        raise forms.ValidationError(_("This username is already taken. Please choose another."))
 
     def clean_email(self):
         value = self.cleaned_data["email"]
@@ -59,9 +93,9 @@ class SignupForm(forms.Form):
 
 class LoginForm(forms.Form):
 
-    password = forms.CharField(
+    password = PasswordField(
         label=_("Password"),
-        widget=forms.PasswordInput(render_value=False)
+        strip=settings.ACCOUNT_PASSWORD_STRIP,
     )
     remember = forms.BooleanField(
         label=_("Remember Me"),
@@ -178,22 +212,12 @@ class PasswordResetTokenForm(forms.Form):
 
 class SettingsForm(forms.Form):
 
-    name = forms.CharField(label=_("Name"), required=True, help_text="Full name. First-, any middle-, and last name(s).")
-    initials = forms.CharField(max_length=16, help_text="First and middle initials (PubMed format)")
-    nickname = forms.CharField(max_length=255, label=_("Preferred/alternate name"), required=False, help_text="Your preferred name, if applicable. Many non-American students choose to go by a different name.")
-    netid = forms.CharField(max_length=32, required=False, help_text="Your netid, if you are TAMU associated")
-    phone_number = forms.CharField(max_length=16, required=False, help_text="A phone number which you will continue to be reachable at (i.e. not an office phone #)")
-    orcid = forms.CharField(max_length=32, required=False, help_text="See <a href='https://orcid.org' target='_blank'>https://orcid.org</a>")
-    orgs = forms.ModelMultipleChoiceField(Organisation.objects, required=False, help_text="Organisations you are associated with. Please add an appropriate organisation if there is not one available")
-
-
     email = forms.EmailField(label=_("Email"), required=True)
     timezone = forms.ChoiceField(
         label=_("Timezone"),
         choices=[("", "---------")] + settings.ACCOUNT_TIMEZONES,
         required=False
     )
-
     if settings.USE_I18N:
         language = forms.ChoiceField(
             label=_("Language"),
