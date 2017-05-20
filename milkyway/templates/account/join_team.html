@@ -1,0 +1,29 @@
+{% extends "site_base.html" %}
+
+{% load account_tags %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block body %}
+<!-- Jumbotron -->
+	<div class="row">
+		<div class="col-sm-6">
+			<h2>Join a Team</h2>
+			<form method="POST">
+				{% csrf_token %}
+				{% bootstrap_form form_join %}
+				<input type="hidden" name="action" value="join" />
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+		<div class="col-sm-6">
+			<h2>Create a New Team</h2>
+			<form method="POST">
+				{% csrf_token %}
+				{% bootstrap_form form_new %}
+				<input type="hidden" name="action" value="new" />
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+		</div>
+	</div>
+{% endblock %}

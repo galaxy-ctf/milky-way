@@ -28,7 +28,17 @@ from account.fields import TimeZoneField
 from account.hooks import hookset
 from account.managers import EmailAddressManager, EmailConfirmationManager
 from account.signals import signup_code_sent, signup_code_used
+from django.urls import reverse_lazy
 
+
+
+@python_2_unicode_compatible
+class Team(models.Model):
+    name = models.CharField(max_length=24)
+    password = models.CharField(max_length=128)
+
+    def get_absolute_url(self):
+        return reverse_lazy('team-detail', args=[self.id])
 
 @python_2_unicode_compatible
 class Account(models.Model):
@@ -41,6 +51,7 @@ class Account(models.Model):
         choices=settings.ACCOUNT_LANGUAGES,
         default=settings.LANGUAGE_CODE
     )
+    team = models.ForeignKey(Team, blank=True, null=True)
 
     @classmethod
     def for_request(cls, request):

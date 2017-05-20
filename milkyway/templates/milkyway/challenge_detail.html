@@ -1,0 +1,36 @@
+{% extends "site_base.html" %}
+
+{% load account_tags %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block body %}
+<!-- Jumbotron -->
+    <div class="container content">
+        <div class="row">
+			<div class="col-sm-12">
+				<h3>{{ object.name }}</h3>
+			</div>
+			<div class="col-sm-6 well">
+				{% if form %}
+				<form method="POST">
+					<h4>Solution</h4>
+					{% csrf_token %}
+					{% bootstrap_form form %}
+					<input type="hidden" name="challenge_id" value="{{object.id}}" />
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</form>
+				{% else %}
+					<h4>You've already solved this challenge</h4>
+				{% endif %}
+			</div>
+
+			<div class="col-sm-6">
+				<h4>About</h4>
+				<p>{{ object.description }}</p>
+				<span class="label label-info">points={{ object.value }}</span>
+				<span class="label label-info">category={{ object.category }}</span>
+			</div><!-- /.col-lg-4 -->
+        </div>
+    </div>
+{% endblock %}

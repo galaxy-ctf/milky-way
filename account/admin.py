@@ -9,6 +9,7 @@ from account.models import (
     PasswordExpiry,
     PasswordHistory,
     SignupCode,
+    Team,
 )
 
 
@@ -18,6 +19,10 @@ class SignupCodeAdmin(admin.ModelAdmin):
     search_fields = ["code", "email"]
     list_filter = ["created"]
     raw_id_fields = ["inviter"]
+
+
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ["name"]
 
 
 class AccountAdmin(admin.ModelAdmin):
@@ -49,6 +54,7 @@ class PasswordHistoryAdmin(admin.ModelAdmin):
     ordering = ["user__username", "-timestamp"]
 
 
+admin.site.register(Team, TeamAdmin)
 admin.site.register(Account, AccountAdmin)
 admin.site.register(SignupCode, SignupCodeAdmin)
 admin.site.register(AccountDeletion, AccountDeletionAdmin)

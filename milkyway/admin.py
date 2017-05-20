@@ -7,7 +7,7 @@ class SolvesAdmin(admin.ModelAdmin):
 
 class FlagAdmin(admin.ModelAdmin):
     queryset = Flag.objects.all()
-    list_display = ('id', 'flag_is_regex', 'flags', 'chal',)
+    list_display = ('id', 'flag_is_regex', 'flag', 'chal',)
 
 class ChallengeAdmin(admin.ModelAdmin):
     queryset = Challenge.objects.all()

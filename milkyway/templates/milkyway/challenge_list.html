@@ -11,9 +11,14 @@
         <div class="row">
         <!-- lists all trucks currently stored  -->
             {% for obj in object_list %}
-                <div class="col-lg-4 col-sm-4">
-					{{ obj }}
+			<a href="/chals/{{ obj.id }}">
+                <div class="col-sm-3 well" style="border: 1px solid grey; margin: 3em">
+					<h4>{{ obj.name }}</h4>
+					<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ obj.description }}</p>
+					<span class="label label-info">points={{ obj.value }}</span>
+					<span class="label label-info">category={{ obj.category }}</span>
                 </div><!-- /.col-lg-4 -->
+			</a>
             {% empty %}
                 <h2 class"text-center">No challenges currently available</h2>
             {% endfor %}

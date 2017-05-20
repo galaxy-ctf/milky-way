@@ -1,0 +1,24 @@
+{% extends "site_base.html" %}
+
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block breadcrumbs %}
+<ol class="breadcrumb">
+	<li><a href="#">Home</a></li>
+	<li class="active">Teams</li>
+</ol>
+{% endblock %}
+
+{% block body %}
+<!-- Jumbotron -->
+	<div class="row">
+		<table class="table table-striped">
+			{% for obj in object_list %}
+			<tr>
+				<td><a href="{% url 'team-detail' obj.id %}">{{ obj.name }}</a></td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}
