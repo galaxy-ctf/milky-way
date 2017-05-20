@@ -10,17 +10,12 @@
         <hr />
         <div class="row">
         <!-- lists all trucks currently stored  -->
-            {% for truck in object_list %}
+            {% for obj in object_list %}
                 <div class="col-lg-4 col-sm-4">
-                    {% if truck.truck_picture %}
-                    <img class="img-circle center-block" src="{{ truck.truck_picture.url }}" alt="{{ truck.truck_name}}" width="140" height="140">
-                    {% endif %}
-                    <h2 class="text-center">{{ truck.truck_name }}</h2>
-                    <p class="text-center">{{ truck.short_description }}</p>
-                    <p class="text-center"><a style="background-color: #500000;" class="btn my-btn" href="{% url 'website:truck-detail' pk=truck.id %}" role="button">View Truck</a></p>
+					{{ obj }}
                 </div><!-- /.col-lg-4 -->
             {% empty %}
-                <h2 class"text-center">Content coming soon</h2>
+                <h2 class"text-center">No challenges currently available</h2>
             {% endfor %}
         </div>
     </div>

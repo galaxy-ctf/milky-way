@@ -75,13 +75,15 @@
 		</div>
 	</nav>
 
-		<header class="page-title">
-			<div class="container">
-				<h1 id="title">{{ page.title }}</h1>
-			</div>
-		</header>
-
 		<div id="main-content" class="container">
+			{% if messages %}
+				{% for message in messages %}
+				<div class="alert alert-{{ message.tags }}" role="alert">
+					{{ message }}
+				</div>
+				{% endfor %}
+			{% endif %}
+
 			{% block body %}{% endblock %}
 		</div>
 
