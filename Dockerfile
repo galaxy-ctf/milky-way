@@ -1,5 +1,4 @@
 FROM quay.io/erasche/docker-django:3.5
-RUN apk update && apk add nginx
 
 # Add our project to the /app/ folder
 ADD . /app/
@@ -15,4 +14,3 @@ RUN chown -R django /app && \
 
 # Drop permissions
 USER django
-ENTRYPOINT ["/app/entrypoint.sh"]
