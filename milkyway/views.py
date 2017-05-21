@@ -1,30 +1,21 @@
-from rest_framework import viewsets
-from django.contrib.auth.models import User, Group
-from milkyway.serializers import UserSerializer, GroupSerializer, SolvesSerializer, FlagSerializer, ChallengeSerializer
-from milkyway.models import Solves, Flag, Challenge
-from account.models import Account, Team
+from account.models import Team
+from milkyway.models import Solves, Challenge, Hint, Category
+
 from django.contrib import messages
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.http import HttpResponse
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.views import generic
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
-from django.views.generic.edit import UpdateView
-from django.views.generic.edit import DeleteView
 from django.views.generic.base import TemplateView
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-from django.shortcuts import redirect
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 
-# from django.conf import settings
-# from django.contrib import messages
-# from django.core.mail import send_mail
-#from collection.forms import ContactForm
-# from django import forms
 from milkyway.forms import FlagForm, NewTeamForm, JoinTeamForm
 import uuid
 
@@ -33,8 +24,10 @@ import uuid
 def index(request):
     return render(request, 'milkyway/index.html', {})
 
+
 def about(request):
     return render(request, 'milkyway/about.html', {})
+
 
 class JoinTeamList(TemplateView):
     template_name = 'account/join_team.html'
@@ -85,38 +78,45 @@ class TeamList(ListView):
 
 # renders detail view for each chal
 
+
 class ChalDetailView(DetailView):
     model = Challenge
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['form'] = FlagForm(dict(
-            challenge_id=kwargs['object'].id,
-        ))
+        context['form'] = FlagForm()
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         context = self.get_context_data(object=self.object)
         # Initialize form from POST data
-        # form = FlagForm(dict(challenge_id=self.object.id))
-        # print(request.POST, context, form)
-        # if 'flag' in request.POST:
-            # data = {
-                # 'challenge_id': self.object.id,
-                # 'flag': '',
-            # }
-            # form = FlagForm(data)
-            # print(form.is_valid())
-            # if form.is_valid():
-                # # Success!
-                # messages.add_message(request, messages.SUCCESS, 'Success!')
-                # return self.render_to_response(context)
-
+        form = FlagForm(dict(challenge_id=self.object.id, flag=request.POST['flag']))
         context['form'] = form
+        if 'flag' in request.POST:
+            if form.is_valid():
+                # Success!
+                messages.add_message(request, messages.SUCCESS, 'Success!')
+                Solves.objects.create(
+                    challenge=self.object,
+                    team=request.user.account.team,
+                )
+                return HttpResponseRedirect(reverse('chal-list'))
+
         return self.render_to_response(context)
 
 
-# renders the list view that shows each chal
 class ChalListView(ListView):
-    model = Challenge
+    model = Category
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['completed'] = {
+            s.challenge.id: True
+            for s in Solves.objects.all().filter(team=self.request.user.account.team)
+        }
+        return context
+
+
+class CategoryDetailView(DetailView):
+    model = Category

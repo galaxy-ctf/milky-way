@@ -7,14 +7,13 @@
 {% block body %}
 <!-- Jumbotron -->
 	<div class="container content">
-		<h1>Challenges</h1>
-
-		{% for obj in object.challenge_set.all %}
-		<h2>{{ object.name }}</h2>
+		<h1>Challenges: {{ object.name }}</h1>
 		<p>{{ object.description }}</p>
+
 		<div class="row">
 		<!-- lists all trucks currently stored  -->
-			<a href="{% url 'chal-detail' obj.id %}">
+			{% for obj in object.challenge_set.all %}
+			<a href="/chals/{{ obj.id }}">
 				<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;">
 					<h4>{{ obj.name }}</h4>
 					<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ obj.description }}</p>
@@ -24,7 +23,7 @@
 			</a>
 			{% empty %}
 				<h2 class"text-center">No challenges currently available</h2>
+			{% endfor %}
 		</div>
-		{% endfor %}
 	</div>
 {% endblock %}

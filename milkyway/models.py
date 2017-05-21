@@ -7,12 +7,20 @@ import re
 import uuid
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=80)
+    description = models.TextField(blank=True)
+
+    def __repr__(self):
+        return self.name
+
+
 class Challenge(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=80)
     description = models.TextField(blank=True)
     value = models.IntegerField(default=10)
-    category = models.CharField(max_length=80)
+    category = models.ForeignKey(Category)
     hidden = models.BooleanField(default=False)
 
     def __repr__(self):

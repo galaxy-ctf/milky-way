@@ -14,14 +14,6 @@ class FlagForm(forms.Form):
     challenge_id = forms.CharField(required=True, max_length=100, widget=forms.HiddenInput())
 
     def clean(self):
-        return
-
-        print(dir(self))
-        print(self.data)
-        print(self.cleaned_data)
-        if 'flag' not in self.cleaned_data:
-            return
-        print(self.cleaned_data)
         if self._errors:
             return
 
