@@ -4,8 +4,6 @@ web:
         - postgres:db
     ports:
         - 8000:8000
-    environment:
-        DB_HOSTNAME: db
 
 
 postgres:
