@@ -32,7 +32,6 @@ from django.urls import reverse_lazy
 
 
 
-@python_2_unicode_compatible
 class Team(models.Model):
     name = models.CharField(max_length=24)
     password = models.CharField(max_length=128)

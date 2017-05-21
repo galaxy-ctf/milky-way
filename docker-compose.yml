@@ -1,0 +1,14 @@
+web:
+    build: .
+    links:
+        - postgres:db
+    ports:
+        - 8000:8000
+    environment:
+        DB_HOSTNAME: db
+
+
+postgres:
+    image: postgres:9.5
+    environment:
+        POSTGRES_PASSWORD: postgres

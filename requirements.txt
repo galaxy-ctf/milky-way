@@ -1,9 +1,7 @@
 Django==1.10.1
-djangorestframework
-markdown
-django-filter
-djangorestframework-jwt
-django-cors-headers
-django-anymail
-django-bootstrap-form
-django-bootstrap3
+django-anymail==0.9
+django-appconf==1.0.2
+django-bootstrap-form==3.2.1
+django-bootstrap3==8.2.3
+PyYAML==3.12
+pytz==2017.2
