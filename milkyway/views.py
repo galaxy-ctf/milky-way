@@ -102,6 +102,8 @@ class ChalDetailView(DetailView):
                     challenge=self.object,
                     team=request.user.account.team,
                 )
+                # Override. This will be set properly NEXT time.
+                context['is_solved'] = True
 
         return self.render_to_response(context)
 
