@@ -38,6 +38,12 @@ class JoinTeamList(TemplateView):
         context['form_join'] = JoinTeamForm()
         return context
 
+    def get(self, request, *args, **kwargs):
+        # If they're already on a team, redirect them there.
+        if request.user.account.team:
+            return redirect(request.user.account.team)
+        return super().get(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(object_list=[])
         # Fill out the right form

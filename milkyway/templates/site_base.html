@@ -68,12 +68,11 @@
 					<li><a href="/about/">About</a></li>
 					<li><a href="/chals/">Challenges</a></li>
 					<li><a href="/scoreboard/">Scoreboard</a></li>
-					{% if request.user.account.team %}
-					<li><a href="{% url 'team-detail' request.user.account.team.id %}">Team</a></li>
-					{% else %}
-					<li><a href="{% url 'join-team' %}">Join a Team</a></li>
-					{% endif %}
-					<li><a href="/logout">Logout</a></li>
+						{% if request.user.account.team %}
+						<li><a href="{% url 'team-detail' request.user.account.team.id %}">Team</a></li>
+						{% else %}
+						<li><a href="{% url 'join-team' %}">Join a Team</a></li>
+						{% endif %}
 					{% endif %}
 					{% block account_bar %}{% include "_account_bar.html" %}{% endblock %}
 				</ul>

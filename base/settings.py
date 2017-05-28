@@ -154,3 +154,4 @@ DEFAULT_FROM_EMAIL = "ctf@galaxians.org"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'milkyway', "static"),
 ]
+LOGIN_URL = '/login/'
