@@ -12,6 +12,7 @@ with open('/tmp/django_secret', 'r') as handle:
     SECRET_KEY = handle.read()
 
 DEBUG = os.environ.get('DJANGO_DEBUG', None) == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 DATABASES = {
     'default': {
