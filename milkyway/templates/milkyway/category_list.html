@@ -13,19 +13,12 @@
 		<h2>{{ obj.name }}</h2>
 		<div class="row">
 			{% for chal in obj.challenge_set.all %}
-				{% if chal.id not in completed %}
 				<a href="{% url 'chal-detail' chal.id %}">
-					<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;">
+					<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;{% if chal.id in completed %}background: #222222{% endif %}">
 						<h4>{{ chal.name }}</h4>
 						<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ chal.description }}</p>
-					</div><!-- /.col-lg-4 -->
+					</div>
 				</a>
-				{% else %}
-				<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;background: #222222">
-					<h4>{{ chal.name }}</h4>
-					<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ chal.description }}</p>
-				</div><!-- /.col-lg-4 -->
-				{% endif %}
 			{% endfor %}
 		</div>
 		{% empty %}
