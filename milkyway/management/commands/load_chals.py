@@ -15,6 +15,8 @@ class Command(BaseCommand):
         with open(options['dataset'], 'r') as handle:
             data = yaml.load(handle)
 
+        Category.objects.all().delete()
+
         for cat in data['chals']:
             category = Category.objects.create(
                 name=cat['name'],
@@ -28,6 +30,7 @@ class Command(BaseCommand):
                     'description': chal['desc'],
                     'value': chal['value'],
                     'category': category,
+                    'lesson': chal.get('lesson', ''),
                 }
                 c = Challenge.objects.create(**chal_data)
                 for hint in chal['hints']:

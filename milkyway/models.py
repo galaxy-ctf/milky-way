@@ -22,14 +22,18 @@ class Challenge(models.Model):
     value = models.IntegerField(default=10)
     category = models.ForeignKey(Category)
     hidden = models.BooleanField(default=False)
+    lesson = models.TextField(blank=True)
 
     def __repr__(self):
         return '<chal %r>' % self.name
 
+    def is_solved_by(self, team):
+        return Solves.objects.filter(challenge=self, team=team).count() > 0
 
 class Hint(models.Model):
     chal = models.ForeignKey(Challenge)
     text = models.TextField()
+
 
 class Flag(models.Model):
     chal = models.ForeignKey(Challenge)
@@ -46,3 +50,7 @@ class Flag(models.Model):
 class Solves(models.Model):
     challenge = models.ForeignKey(Challenge)
     team = models.ForeignKey(Team)
+
+    class Meta:
+        # Do not allow multiple solves for single chal.
+        unique_together = ('challenge', 'team')

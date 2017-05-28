@@ -85,6 +85,7 @@ class ChalDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
         context['form'] = FlagForm()
+        context['is_solved'] = self.object.is_solved_by(self.request.user.account.team)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -101,7 +102,6 @@ class ChalDetailView(DetailView):
                     challenge=self.object,
                     team=request.user.account.team,
                 )
-                return HttpResponseRedirect(reverse('chal-list'))
 
         return self.render_to_response(context)
 
