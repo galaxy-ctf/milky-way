@@ -13,7 +13,5 @@ RUN chown -R django /app && \
 	python manage.py collectstatic --noinput
 
 # Drop permissions
-RUN echo '#!/bin/bash\ncrond -l 2 -f &\n' > /docker/docker-entrypoint.d/cron.sh
-
-USER django
+RUN printf '#!/bin/bash\ncrond -l 4 -L /var/log/cron.log\n' > /docker/docker-entrypoint.d/cron.sh
 ADD crontab /var/spool/cron/crontabs/django
