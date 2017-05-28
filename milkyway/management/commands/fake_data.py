@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
 from account.models import Account, Team
 from milkyway.models import Challenge, Hint, Team, Category, Flag
 import lorem
@@ -36,3 +37,18 @@ class Command(BaseCommand):
                     chal=obj,
                     text=lorem.paragraph()
                 )
+
+        for i in range(50):
+            name = lorem.sentence()
+            name = 'team_' + name[0:name.index(' ')]
+            team, _ = Team.objects.get_or_create(
+                name=name,
+                password='password'
+            )
+
+            for j in range(10):
+                user, _ = User.objects.get_or_create(
+                    username='jane.doe.%s.%s' % (i, j)
+                )
+                user.account.team = team
+                user.account.save()

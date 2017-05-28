@@ -14,9 +14,22 @@
 {% block body %}
 <!-- Jumbotron -->
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-8">
 			<h2>{{ object.name }}</h2>
 		</div>
+		{% if request.user.is_authenticated %}
+		<div class="well col-sm-4">
+			<p>
+			As part of GCCCTF we've launched a private Galaxy instance for you to hack on:
+				<a target="_blank" href="https://gx.ctf.galaxians.org/galaxy-{{ team.name }}">/galaxy-{{ team.name }}</a>
+			</p>
+			<p>
+			The password is your team's password: <code>{{ team.password }}</code>
+			</p>
+		</div>
+		{% endif %}
+	</div>
+	<div class="row">
 		<div class="col-sm-6">
 			<h3>Members</h3>
 			<table class="table table-striped">

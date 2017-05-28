@@ -83,7 +83,9 @@
 	</nav>
 
 		<div id="main-content" class="container">
+			<div class="row">
 			{% block breadcrumbs %}{% endblock %}
+			</div>
 			{% if messages %}
 				{% for message in messages %}
 				<div class="alert alert-{{ message.tags }}" role="alert">
