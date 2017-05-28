@@ -1,9 +1,11 @@
 web:
     build: .
     links:
-        - postgres
+        - postgres:db
+    environment:
+        PGHOST: db
     ports:
-        - 8001:8000
+        - 8001:80
 
 
 postgres:
