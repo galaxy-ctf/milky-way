@@ -34,7 +34,7 @@
 
 			<div class="col-sm-6">
 				<h4>About</h4>
-				<p>{{ object.description | redaction:request.user }}</p>
+				<p>{{ object.description | redaction:request.user | safe}}</p>
 				<span class="label label-success">points={{ object.value }}</span>
 				<span class="label label-success">category={{ object.category.name }}</span>
 				{% if hints.count > 0 and competition_active %}
@@ -44,7 +44,7 @@
 						Hint {{ forloop.counter }}
 					</button>
 					<div id="hint-{{ hint.id }}" style="visibility: hidden; padding-top: 0.5em; padding-bottom: 0.5em;">
-						<div>{{ hint.text }}</div>
+						<div>{{ hint.text | safe }}</div>
 				{% endfor %}
 
 				{% for hint in object.hint_set.all %}
