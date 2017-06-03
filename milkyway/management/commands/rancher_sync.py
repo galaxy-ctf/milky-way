@@ -13,6 +13,7 @@ from django.conf import settings
 from django.utils import timezone
 RANCHER_ACCESS_KEY = os.environ.get('RANCHER_ACCESS_KEY', None)
 RANCHER_SECRET_KEY = os.environ.get('RANCHER_SECRET_KEY', None)
+METADATA_FLAG = os.environ.get('METADATA_FLAG', "none_yet")
 
 
 def get_env(team):
@@ -248,6 +249,9 @@ def launch_container(team):
         "stackId" : "1st19",
         "uuid" : None,
         "name" : "galaxy-%s" % team.name,
+        "metadata": {
+            "super_secret_password": METADATA_FLAG,
+        },
         "type" : "service",
         "secondaryLaunchConfigs" : [],
         "launchConfig" : {

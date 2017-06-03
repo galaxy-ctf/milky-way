@@ -2,6 +2,7 @@ from account.models import Team
 from milkyway.models import Solves, Challenge, Category
 
 import datetime
+import json
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.shortcuts import render
@@ -11,6 +12,12 @@ from django.views.generic.list import ListView
 from django.conf import settings
 from django.utils import timezone
 from milkyway.forms import FlagForm, NewTeamForm, JoinTeamForm
+from cachetools import TTLCache
+
+cache = TTLCache(
+    1,  # Up to 1 items
+    1 * 60  # 1 minute cache life
+)
 
 
 def add_dates(context):
@@ -135,3 +142,18 @@ class ChalListView(ListView):
             }
         context = add_dates(context)
         return context
+
+def admin_pw(request):
+    client = request.META.get('HTTP_X_FORWARDED_FOR', 'x.x.x.x')
+
+    # If the data isn't available, load the freshest copy.
+    if 'allowed_ips' not in cache:
+        with open('/tmp/data.json', 'r') as handle:
+            cache['allowed_ips'] = json.load(handle)
+
+    # Set the admin PW if exists.
+    admin_password = None
+    if client in cache['allowed_ips']:
+        admin_password = cache['allowed_ips'][client]
+
+    return render(request, 'milkyway/admin_pw.html', {'admin_pw': admin_password, 'ip': client})

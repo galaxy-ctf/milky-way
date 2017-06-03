@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^chals/(?P<pk>[0-9a-f-]+)/$' , login_required(views.ChalDetailView.as_view()) , name='chal-detail') ,
     url(r"^team/$"                     , views.TeamList.as_view()                       , name="team-list")   ,
     url(r"^team/(?P<pk>[0-9a-f-]+)/$"  , views.TeamDetail.as_view()                     , name="team-detail") ,
+    url(r"^admin_pw$"                  , views.admin_pw                                 , name="admin-pw")    ,
 ]

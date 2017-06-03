@@ -1,0 +1,28 @@
+{% extends "site_base.html" %}
+
+{% block body %}
+<div class="container">
+	<p>
+	Your ip address: <code>{{ ip }}</code>
+	</p>
+	<p>
+	{% if admin_pw %}
+	<table class="table">
+		<tbody>
+			<tr>
+				<td>Username</td>
+				<td><code>admin@galaxy.org</code></td>
+			</tr>
+			<tr>
+				<td>Password</td>
+				<td>{{ admin_pw }}</td>
+			</tr>
+		
+		</tbody>
+	</table>
+	{% else %}
+	Who are you? I don't know you. I don't trust you. You're not in my network.
+	{% endif %}
+	</p>
+</div>
+{% endblock %}
