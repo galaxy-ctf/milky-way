@@ -33,7 +33,7 @@ class Command(BaseCommand):
                     team_name = container['labels']['org.galaxians.ctf.team.name']
                     try:
                         team = Team.objects.get(name=team_name)
-                        output[ip] = team.admin_password
+                        output[ip] = str(team.admin_password)
                     except:
                         pass
         print(json.dumps(output))
