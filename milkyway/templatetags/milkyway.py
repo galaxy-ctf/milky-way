@@ -12,4 +12,8 @@ def redaction(value, user): # Only one argument.
     """Converts a string into all lowercase"""
     if settings.COMPETITION_STARTS < timezone.now() or user.is_superuser:
         return value
-    return re.sub(r'[^\s]', '█', value)
+
+    value = re.sub(r'[A-Z]', '█', value)
+    value = re.sub(r'[a-z0-9]', '▆', value)
+    value = re.sub(r'[^\s█▆]', '▇', value)
+    return value
