@@ -5,3 +5,4 @@ django-bootstrap-form==3.2.1
 django-bootstrap3==8.2.3
 PyYAML==3.12
 pytz==2017.2
+python-dateutil==2.6.0

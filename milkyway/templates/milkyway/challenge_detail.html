@@ -3,6 +3,7 @@
 {% load account_tags %}
 {% load i18n %}
 {% load bootstrap3 %}
+{% load milkyway %}
 
 {% block body %}
 <!-- Jumbotron -->
@@ -11,6 +12,7 @@
 			<div class="col-sm-12">
 				<h3>{{ object.name }}</h3>
 			</div>
+			{% if competition_active %}
 			<div class="col-sm-6 well">
 				{% if not is_solved %}
 				<form method="POST">
@@ -28,13 +30,14 @@
 					<a href="{% url 'chal-list' %}" class="btn btn-primary">Back to Challenge List</a>
 				{% endif %}
 			</div>
+			{% endif %}
 
 			<div class="col-sm-6">
 				<h4>About</h4>
-				<p>{{ object.description }}</p>
+				<p>{{ object.description | redaction:request.user }}</p>
 				<span class="label label-success">points={{ object.value }}</span>
 				<span class="label label-success">category={{ object.category.name }}</span>
-				{% if object.hint_set.count > 0 %}
+				{% if object.hint_set.count > 0 and competition_active %}
 				<h4>Hints</h4>
 				{% for hint in object.hint_set.all %}
 					<button class="btn btn-secondary" onclick="javascript:$('#hint-{{ hint.id }}').css('visibility', 'initial')">

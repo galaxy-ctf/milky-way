@@ -1,24 +1,25 @@
 from account.models import Team
-from milkyway.models import Solves, Challenge, Hint, Category
+from milkyway.models import Solves, Challenge, Category
 
+import datetime
 from django.contrib import messages
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
-from django.urls import reverse
-from django.urls import reverse_lazy
-from django.views import generic
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
-
+from django.conf import settings
+from django.utils import timezone
 from milkyway.forms import FlagForm, NewTeamForm, JoinTeamForm
-import uuid
 
+
+def add_dates(context):
+    now = timezone.now()
+    context['now'] = now
+    context['COMPETITION_STARTS'] = settings.COMPETITION_STARTS
+    context['COMPETITION_ENDS'] = settings.COMPETITION_ENDS
+    context['competition_active'] = settings.COMPETITION_STARTS < now < settings.COMPETITION_ENDS
+    return context
 
 # renders the index page
 def index(request):
@@ -78,6 +79,11 @@ class JoinTeamList(TemplateView):
 class TeamDetail(DetailView):
     model = Team
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context = add_dates(context)
+        return context
+
 
 class TeamList(ListView):
     model = Team
@@ -92,6 +98,7 @@ class ChalDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context['form'] = FlagForm()
         context['is_solved'] = self.object.is_solved_by(self.request.user.account.team)
+        context = add_dates(context)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -123,8 +130,5 @@ class ChalListView(ListView):
             s.challenge.id: True
             for s in Solves.objects.all().filter(team=self.request.user.account.team)
         }
+        context = add_dates(context)
         return context
-
-
-class CategoryDetailView(DetailView):
-    model = Category

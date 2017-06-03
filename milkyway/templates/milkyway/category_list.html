@@ -1,5 +1,6 @@
 {% extends "site_base.html" %}
 
+{% load milkyway %}
 {% load account_tags %}
 {% load i18n %}
 {% load bootstrap3 %}
@@ -16,7 +17,7 @@
 				<a href="{% url 'chal-detail' chal.id %}">
 					<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;{% if chal.id in completed %}background: #222222{% endif %}">
 						<h4>{{ chal.name }}</h4>
-						<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ chal.description }}</p>
+						<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ chal.description | redaction:request.user }}</p>
 					</div>
 				</a>
 			{% endfor %}

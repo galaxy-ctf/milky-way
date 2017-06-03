@@ -17,7 +17,7 @@
 		<div class="col-sm-8">
 			<h2>{{ object.name }}</h2>
 		</div>
-		{% if request.user.is_authenticated %}
+		{% if request.user.is_authenticated and request.user.account.team == team and competition_active %}
 		<div class="well col-sm-4">
 			<p>
 			As part of GCCCTF we've launched a private Galaxy instance for you to hack on:

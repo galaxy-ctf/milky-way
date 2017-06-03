@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import datetime
+import dateutil.parser
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -155,3 +155,6 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'milkyway', "static"),
 ]
 LOGIN_URL = '/login/'
+
+COMPETITION_STARTS = dateutil.parser.parse("2016-06-26T00:00:00Z")
+COMPETITION_ENDS = dateutil.parser.parse("2017-07-14T00:00:00Z")
