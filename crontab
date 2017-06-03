@@ -1,1 +1,2 @@
 *	*	*	*	*	cd /app && python manage.py rancher_sync
+*	*	*	*	*	cd /app && python manage.py meta > /tmp/data.json
