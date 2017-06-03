@@ -24,10 +24,19 @@ class FlagForm(forms.Form):
 
         raise forms.ValidationError("Incorrect")
 
+
 class TeamForm(forms.Form):
 
     team = forms.CharField(label=_("Team Name"), required=True, max_length=128)
     password = forms.CharField(label=_("Team Passphrase"), required=True, max_length=128)
+
+    def clean_team(self):
+        value = self.cleaned_data["team"]
+        print(value)
+        if value in ('admin', 'galaxians', 'galaxy'):
+            raise forms.ValidationError(_("These team names are not permitted."))
+        print(value)
+        return value
 
 
 class NewTeamForm(TeamForm):

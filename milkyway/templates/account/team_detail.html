@@ -36,7 +36,7 @@
 					<tbody>
 						<tr>
 							<td>Username</td>
-							<td><code>{{ team.name + '@galaxy.org' | redaction:request.user }}</code></td>
+							<td><code>{{ galaxy_username | redaction:request.user }}</code></td>
 						</tr>
 						<tr>
 							<td>Password</td>

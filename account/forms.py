@@ -68,6 +68,10 @@ class SignupForm(forms.Form):
     def clean_username(self):
         if not alnum_re.search(self.cleaned_data["username"]):
             raise forms.ValidationError(_("Usernames can only contain letters, numbers and underscores."))
+
+        if self.cleaned_data["username"] in ('admin', 'galaxians', 'galaxy'):
+            raise forms.ValidationError(_("These usernames are not permitted."))
+
         User = get_user_model()
         lookup_kwargs = get_user_lookup_kwargs({
             "{username}__iexact": self.cleaned_data["username"]
