@@ -8,6 +8,8 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 from django.core.management.base import BaseCommand
 from account.models import Team
+from django.conf import settings
+from django.utils import timezone
 RANCHER_ACCESS_KEY = os.environ.get('RANCHER_ACCESS_KEY', None)
 RANCHER_SECRET_KEY = os.environ.get('RANCHER_SECRET_KEY', None)
 
@@ -376,11 +378,13 @@ class Command(BaseCommand):
         if RANCHER_SECRET_KEY is None:
             raise Exception("Please set RANCHER_SECRET_KEY")
 
+        if not(settings.COMPETITION_STARTS < timezone.now() < settings.COMPETITION_ENDS):
+            logging.info("Competition has not stated yet")
+            sys.exit(0)
+
         current_state = get_current_state()
-        routes = []
         stateChanged = False
         for team in Team.objects.all():
-
 
             safe_team_name = team.name
             safe_team_id = team.id
@@ -396,4 +400,5 @@ class Command(BaseCommand):
                 logging.info("Launched %s", container['id'])
 
         # Refetch current state and update LB
-        update_load_balancer(get_current_state())
+        if stateChanged:
+            update_load_balancer(get_current_state())

@@ -1,7 +1,5 @@
 from django.core.management.base import BaseCommand
-from account.models import Account, Team
-from milkyway.models import Challenge, Hint, Team, Category, Flag
-import datetime
+from milkyway.models import Challenge, Hint, Category, Flag
 import yaml
 
 
@@ -22,7 +20,6 @@ class Command(BaseCommand):
                 name=cat['name'],
                 description=cat['desc']
             )
-            chals = []
             for chal in cat['chals']:
                 chal_data = {
                     'id': chal['id'],
@@ -34,7 +31,7 @@ class Command(BaseCommand):
                 }
                 c = Challenge.objects.create(**chal_data)
                 for hint in chal['hints']:
-                    Hint.objects.create(text=hint, chal=c)
+                    Hint.objects.create(text=hint, chal=c, show=False)
                 c.save()
 
                 for flag in chal['flags']:

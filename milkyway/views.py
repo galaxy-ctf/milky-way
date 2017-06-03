@@ -98,6 +98,7 @@ class ChalDetailView(DetailView):
         context = super().get_context_data(*args, **kwargs)
         context['form'] = FlagForm()
         context['is_solved'] = self.object.is_solved_by(self.request.user.account.team)
+        context['hints'] = self.object.hint_set.all().filter(show=True)
         context = add_dates(context)
         return context
 

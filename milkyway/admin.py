@@ -11,13 +11,14 @@ class FlagAdmin(admin.ModelAdmin):
 
 class ChallengeAdmin(admin.ModelAdmin):
     queryset = Challenge.objects.all()
-    list_display = ('category', 'name', 'value', 'id', 'description', 'hidden',)
+    list_display = ('name', 'category', 'value', 'id', 'description', 'hidden',)
 
 class CategoryAdmin(admin.ModelAdmin):
     queryset = Category.objects.all()
 
 class HintAdmin(admin.ModelAdmin):
     queryset = Hint.objects.all()
+    list_display = ('__str__', 'show')
 
 admin.site.register(Solves, SolvesAdmin)
 admin.site.register(Flag, FlagAdmin)

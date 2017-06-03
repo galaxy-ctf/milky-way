@@ -11,7 +11,7 @@ class Category(models.Model):
     name = models.CharField(max_length=80)
     description = models.TextField(blank=True)
 
-    def __repr__(self):
+    def __str__(self):
         return self.name
 
 
@@ -24,7 +24,7 @@ class Challenge(models.Model):
     hidden = models.BooleanField(default=False)
     lesson = models.TextField(blank=True)
 
-    def __repr__(self):
+    def __str__(self):
         return '<chal %r>' % self.name
 
     def is_solved_by(self, team):
@@ -33,7 +33,10 @@ class Challenge(models.Model):
 class Hint(models.Model):
     chal = models.ForeignKey(Challenge)
     text = models.TextField()
+    show = models.BooleanField(default=False)
 
+    def __str__(self):
+        return '<hint for %r>' % self.chal.name
 
 class Flag(models.Model):
     chal = models.ForeignKey(Challenge)
@@ -46,6 +49,9 @@ class Flag(models.Model):
         else:
             return re.match(self.flag, value)
 
+
+    def __str__(self):
+        return '<flag for %r>' % self.chal.name
 
 class Solves(models.Model):
     challenge = models.ForeignKey(Challenge)

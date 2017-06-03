@@ -37,9 +37,9 @@
 				<p>{{ object.description | redaction:request.user }}</p>
 				<span class="label label-success">points={{ object.value }}</span>
 				<span class="label label-success">category={{ object.category.name }}</span>
-				{% if object.hint_set.count > 0 and competition_active %}
+				{% if hints.count > 0 and competition_active %}
 				<h4>Hints</h4>
-				{% for hint in object.hint_set.all %}
+				{% for hint in hints %}
 					<button class="btn btn-secondary" onclick="javascript:$('#hint-{{ hint.id }}').css('visibility', 'initial')">
 						Hint {{ forloop.counter }}
 					</button>
