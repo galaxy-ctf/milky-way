@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load bootstrap3 %}
+{% load milkyway %}
 
 {% block breadcrumbs %}
 <ol class="breadcrumb">
@@ -17,14 +18,32 @@
 		<div class="col-sm-8">
 			<h2>{{ object.name }}</h2>
 		</div>
-		{% if request.user.is_authenticated and request.user.account.team == team and competition_active %}
+		{% if request.user.is_authenticated and request.user.account.team == team  %}
 		<div class="well col-sm-4">
 			<p>
-			As part of GCCCTF we've launched a private Galaxy instance for you to hack on:
+			{% if competition_active %}
+				As part of GCCCTF we've launched a private Galaxy instance for
+				you to hack on:
 				<a target="_blank" href="https://gx.ctf.galaxians.org/galaxy-{{ team.name }}">/galaxy-{{ team.name }}</a>
+			{% else %}
+				As part of GCCCTF we will launch a private Galaxy instance for
+				you to hack on. The credentials will be available after the
+				competition starts.
+			{% endif %}
 			</p>
 			<p>
-			The password is your team's password: <code>{{ team.password }}</code>
+				<table class="table table-striped">
+					<tbody>
+						<tr>
+							<td>Username</td>
+							<td><code>{{ 'admin@galaxy.org' | redaction:request.user }}</code></td>
+						</tr>
+						<tr>
+							<td>Password</td>
+							<td><code>{{ team.password | redaction:request.user}}</code></td>
+						</tr>
+					</tbody>
+				</table>
 			</p>
 		</div>
 		{% endif %}

@@ -44,6 +44,8 @@ class Team(models.Model):
         points = [x.challenge.value for x in self.solves_set.all()]
         return sum(points)
 
+    def __str__(self):
+        return self.name
 
 @python_2_unicode_compatible
 class Account(models.Model):
