@@ -1,2 +1,2 @@
 *	*	*	*	*	cd /app && python manage.py rancher_sync
-*	*	*	*	*	cd /app && python manage.py admin_pw > /tmp/data.json
+*	*	*	*	*	cd /app && python manage.py admin_pw > /tmp/data-fresh.json && mv /tmp/data-fresh.json /tmp/data.json;
