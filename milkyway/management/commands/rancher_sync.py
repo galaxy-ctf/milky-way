@@ -1,5 +1,6 @@
 import os
 import re
+import uuid
 import requests
 import json
 import logging
@@ -13,6 +14,20 @@ from django.utils import timezone
 RANCHER_ACCESS_KEY = os.environ.get('RANCHER_ACCESS_KEY', None)
 RANCHER_SECRET_KEY = os.environ.get('RANCHER_SECRET_KEY', None)
 
+
+def get_env(team):
+    return {
+        "PROXY_PREFIX": "/galaxy-%s" % team.name,
+        "GALAXY_CONFIG_MASTER_API_KEY": uuid.uuid4().hex,
+        "GALAXY_DEFAULT_ADMIN_KEY": 'key-' + team.galaxy_admin_password,
+        "GALAXY_DEFAULT_ADMIN_PASSWORD": team.galaxy_admin_password,
+        "GALAXY_CONFIG_OVERRIDE_STATSD_PREFIX": "galaxy-all",
+        "GALAXY_CONFIG_OVERRIDE_STATSD_HOST": "127.0.0.1",
+        "GALAXY_CONFIG_OVERRIDE_STATSD_PORT": 8125,
+        "TEAM_ID" : str(team.id),
+        "TEAM_NAME" : team.name,
+        "TEAM_PASSWORD": team.password,
+    }
 
 def safe_str(unsafe):
     unsafe = unsafe.replace(' ', '_')
@@ -222,7 +237,7 @@ def update_load_balancer(routes):
     return resp
 
 
-def launch_container(team_name, team_id, galaxy_password):
+def launch_container(team):
     data = {
         "removed" : None,
         "selectorLink" : None,
@@ -232,7 +247,7 @@ def launch_container(team_name, team_id, galaxy_password):
         "healthState" : None,
         "stackId" : "1st19",
         "uuid" : None,
-        "name" : "galaxy-%s" % team_name,
+        "name" : "galaxy-%s" % team.name,
         "type" : "service",
         "secondaryLaunchConfigs" : [],
         "launchConfig" : {
@@ -271,8 +286,8 @@ def launch_container(team_name, team_id, galaxy_password):
             "description" : None,
             "labels" : {
                 "org.galaxians.ctf" : "gccctf2017",
-                "org.galaxians.ctf.team.name" : team_name,
-                "org.galaxians.ctf.team.id" : str(team_id),
+                "org.galaxians.ctf.team.name" : team.name,
+                "org.galaxians.ctf.team.id" : str(team.id),
                 "io.rancher.scheduler.affinity:host_label" : "role=compute",
                 "io.rancher.container.pull_image" : "always",
             },
@@ -327,15 +342,7 @@ def launch_container(team_name, team_id, galaxy_password):
             "ip6" : None,
             "shmSize" : None,
             "cpuSetMems" : None,
-            "environment" : {
-                "PROXY_PREFIX": "/galaxy-%s" % team_name,
-                "GALAXY_DEFAULT_ADMIN_PASSWORD": galaxy_password,
-                "GALAXY_CONFIG_OVERRIDE_STATSD_PREFIX": "galaxy-all",
-                "GALAXY_CONFIG_OVERRIDE_STATSD_HOST": "127.0.0.1",
-                "GALAXY_CONFIG_OVERRIDE_STATSD_PORT": 8125,
-                "TEAM_ID" : str(team_id),
-                "TEAM_NAME" : team_name,
-            },
+            "environment" : get_env(team),
             "type" : "launchConfig",
             "user" : None,
             "networkLaunchConfig" : None,
@@ -380,23 +387,20 @@ class Command(BaseCommand):
 
         if not(settings.COMPETITION_STARTS < timezone.now() < settings.COMPETITION_ENDS):
             logging.info("Competition has not stated yet")
+            import sys
             sys.exit(0)
 
         current_state = get_current_state()
         stateChanged = False
         for team in Team.objects.all():
 
-            safe_team_name = team.name
-            safe_team_id = team.id
-            safe_team_password = team.password
-
-            if safe_team_name in current_state:
-                logging.debug("Team [%s] container available, continuing", safe_team_name)
+            if team.name in current_state:
+                logging.debug("Team [%s] container available, continuing", team.name)
             else:
                 stateChanged = True
                 # Then launch an image
-                logging.info("Team [%s] container not available, launching", safe_team_name)
-                container = launch_container(safe_team_name, safe_team_id, safe_team_password)
+                logging.info("Team [%s] container not available, launching", team.name)
+                container = launch_container(team)
                 logging.info("Launched %s", container['id'])
 
         # Refetch current state and update LB

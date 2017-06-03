@@ -29,12 +29,14 @@ from account.hooks import hookset
 from account.managers import EmailAddressManager, EmailConfirmationManager
 from account.signals import signup_code_sent, signup_code_used
 from django.urls import reverse_lazy
+import uuid
 
 
 
 class Team(models.Model):
     name = models.CharField(max_length=24)
     password = models.CharField(max_length=128)
+    admin_password = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def get_absolute_url(self):
         return reverse_lazy('team-detail', args=[self.id])
