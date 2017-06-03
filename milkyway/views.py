@@ -145,6 +145,7 @@ class ChalListView(ListView):
 
 def admin_pw(request):
     client = request.META.get('HTTP_X_FORWARDED_FOR', 'x.x.x.x')
+    clients = [c.strip() for c in client.split(',')]
 
     # If the data isn't available, load the freshest copy.
     if 'allowed_ips' not in cache:
@@ -153,7 +154,9 @@ def admin_pw(request):
 
     # Set the admin PW if exists.
     admin_password = None
-    if client in cache['allowed_ips']:
-        admin_password = cache['allowed_ips'][client]
+    for c in clients:
+        if c in cache['allowed_ips']:
+            admin_password = cache['allowed_ips'][c]
+            break
 
     return render(request, 'milkyway/admin_pw.html', {'admin_pw': admin_password, 'ip': client})
