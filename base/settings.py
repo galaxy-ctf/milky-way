@@ -156,5 +156,5 @@ STATICFILES_DIRS = [
 ]
 LOGIN_URL = '/login/'
 
-COMPETITION_STARTS = dateutil.parser.parse("2016-06-26T00:00:00Z")
+COMPETITION_STARTS = dateutil.parser.parse("2017-06-26T00:00:00Z")
 COMPETITION_ENDS = dateutil.parser.parse("2017-07-14T00:00:00Z")

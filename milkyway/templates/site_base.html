@@ -64,15 +64,17 @@
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse navbar-ex1-collapse">
 				<ul class="nav navbar-nav navbar-right">
-					{% if request.user.is_authenticated %}
 					<li><a href="/about/">About</a></li>
 					<li><a href="/chals/">Challenges</a></li>
+					{% if request.user.is_authenticated %}
 					<li><a href="{% url 'team-list' %}">Scoreboard</a></li>
 						{% if request.user.account.team %}
 						<li><a href="{% url 'team-detail' request.user.account.team.id %}">Team</a></li>
 						{% else %}
 						<li><a href="{% url 'join-team' %}">Join a Team</a></li>
 						{% endif %}
+					{% else %}
+						<li><a href="{% url 'team-list'  %}">Teams</a></li>
 					{% endif %}
 					{% block account_bar %}{% include "_account_bar.html" %}{% endblock %}
 				</ul>

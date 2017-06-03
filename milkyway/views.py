@@ -126,9 +126,10 @@ class ChalListView(ListView):
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
-        context['completed'] = {
-            s.challenge.id: True
-            for s in Solves.objects.all().filter(team=self.request.user.account.team)
-        }
+        if not self.request.user.is_anonymous:
+            context['completed'] = {
+                s.challenge.id: True
+                for s in Solves.objects.all().filter(team=self.request.user.account.team)
+            }
         context = add_dates(context)
         return context
