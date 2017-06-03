@@ -19,8 +19,8 @@ def get_env(team):
     return {
         "PROXY_PREFIX": "/galaxy-%s" % team.name,
         "GALAXY_CONFIG_MASTER_API_KEY": uuid.uuid4().hex,
-        "GALAXY_DEFAULT_ADMIN_KEY": 'key-' + team.galaxy_admin_password,
-        "GALAXY_DEFAULT_ADMIN_PASSWORD": team.galaxy_admin_password,
+        "GALAXY_DEFAULT_ADMIN_KEY": 'key-' + team.admin_password,
+        "GALAXY_DEFAULT_ADMIN_PASSWORD": team.admin_password,
         "GALAXY_CONFIG_OVERRIDE_STATSD_PREFIX": "galaxy-all",
         "GALAXY_CONFIG_OVERRIDE_STATSD_HOST": "127.0.0.1",
         "GALAXY_CONFIG_OVERRIDE_STATSD_PORT": 8125,
