@@ -12,6 +12,7 @@
 
 		{% for obj in object_list %}
 		<h2>{{ obj.name }}</h2>
+		<p>{{ obj.description }}</p>
 		<div class="row">
 			{% for chal in obj.challenge_set.all %}
 				<a href="{% url 'chal-detail' chal.id %}">
