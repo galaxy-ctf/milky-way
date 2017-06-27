@@ -36,11 +36,11 @@
 					<tbody>
 						<tr>
 							<td>Username</td>
-							<td><code>{{ galaxy_username | redaction:request.user }}</code></td>
+							<td><code>admin@galaxy.org</code></td>
 						</tr>
 						<tr>
 							<td>Password</td>
-							<td><code>{{ team.password | redaction:request.user}}</code></td>
+							<td><code>{{ team.admin_password | redaction:request.user}}</code></td>
 						</tr>
 					</tbody>
 				</table>
