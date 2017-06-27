@@ -67,7 +67,7 @@ class SignupForm(forms.Form):
 
     def clean_username(self):
         if not alnum_re.search(self.cleaned_data["username"]):
-            raise forms.ValidationError(_("Usernames can only contain letters, numbers and underscores."))
+            raise forms.ValidationError(_("Usernames can only contain letters, numbers and dashes."))
 
         if self.cleaned_data["username"] in ('admin', 'galaxians', 'galaxy'):
             raise forms.ValidationError(_("These usernames are not permitted."))
@@ -75,7 +75,7 @@ class SignupForm(forms.Form):
         if ' ' in self.cleaned_data["username"]:
             raise forms.ValidationError(_("Spaces are not permitted."))
 
-        if self.cleaned_data["username"] !=  re.sub('[^A-Za-z0-9_]', '', self.cleaned_data["username"]):
+        if self.cleaned_data["username"] !=  re.sub('[^A-Za-z0-9-]', '', self.cleaned_data["username"]):
             raise forms.ValidationError(_("Non-permitted characters were used."))
 
         User = get_user_model()
