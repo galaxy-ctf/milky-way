@@ -358,7 +358,7 @@ def launch_container(team):
             "domainName" : None,
             "oomScoreAdj" : None,
             "healthRetries" : None,
-            "imageUuid" : "docker:quay.io/erasche/gccctf2017:master"
+            "imageUuid" : "docker:quay.io/erasche/gccctf2017:latest"
         },
         "assignServiceIpAddress" : False,
         "kind" : None,
