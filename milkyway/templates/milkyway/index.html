@@ -10,7 +10,10 @@
 		<div class="col-xs-12">
 			<h1>Welcome to GCC CTF!</h1>
 			<p>
+			{% if competition_active %}
+			{% else %}
 			The competition hasn't started yet
+			{% end if %}
 			</p>
 			<p>
 			GCCCTF was designed as a fun and friendly event to help Galaxy users,
