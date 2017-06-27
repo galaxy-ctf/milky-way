@@ -30,7 +30,7 @@ def add_dates(context):
 
 # renders the index page
 def index(request):
-    return render(request, 'milkyway/index.html', {})
+    return render(request, 'milkyway/index.html', add_dates({}))
 
 
 def about(request):
