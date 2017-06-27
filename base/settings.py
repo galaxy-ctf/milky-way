@@ -158,3 +158,19 @@ LOGIN_URL = '/login/'
 
 COMPETITION_STARTS = dateutil.parser.parse("2017-06-26T00:00:00Z")
 COMPETITION_ENDS = dateutil.parser.parse("2017-07-14T00:00:00Z")
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+}
