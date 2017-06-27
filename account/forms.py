@@ -75,6 +75,9 @@ class SignupForm(forms.Form):
         if ' ' in self.cleaned_data["username"]:
             raise forms.ValidationError(_("Spaces are not permitted."))
 
+        if self.cleaned_data["username"] !=  re.sub('[^A-Za-z0-9_]', '', self.cleaned_data["username"]):
+            raise forms.ValidationError(_("Non-permitted characters were used."))
+
         User = get_user_model()
         lookup_kwargs = get_user_lookup_kwargs({
             "{username}__iexact": self.cleaned_data["username"]
