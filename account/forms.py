@@ -72,6 +72,9 @@ class SignupForm(forms.Form):
         if self.cleaned_data["username"] in ('admin', 'galaxians', 'galaxy'):
             raise forms.ValidationError(_("These usernames are not permitted."))
 
+        if ' ' in self.cleaned_data["username"]:
+            raise forms.ValidationError(_("Spaces are not permitted."))
+
         User = get_user_model()
         lookup_kwargs = get_user_lookup_kwargs({
             "{username}__iexact": self.cleaned_data["username"]
