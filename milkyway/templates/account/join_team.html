@@ -18,7 +18,7 @@
 		</div>
 		<div class="col-sm-6">
 			<h2>Create a New Team</h2>
-			<p>Team name should be [a-z0-9_]</p>
+			<p>Team name should be [a-z0-9-]</p>
 			<form method="POST">
 				{% csrf_token %}
 				{% bootstrap_form form_new %}
