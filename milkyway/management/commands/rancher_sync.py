@@ -87,7 +87,7 @@ def update_load_balancer(routes):
     data = {
         "externalId" : None,
         "removed" : None,
-        "uuid" : "41c43307-a6a6-4472-8112-979a774a877a",
+        "uuid" : "a7336947-8198-4f86-bf1f-c6525354c37",
         "assignServiceIpAddress" : False,
         "name" : "lb",
         "state" : "active",
@@ -192,12 +192,12 @@ def update_load_balancer(routes):
         "transitioningProgress" : None,
         "publicEndpoints" : [
             {
-                "instanceId" : "1i123",
+                "instanceId" : "1i14994",
                 "type" : "publicEndpoint",
-                "serviceId" : "1s30",
-                "ipAddress" : "207.154.226.63",
+                "serviceId" : "1s124",
+                "ipAddress" : "207.154.248.244",
                 "port" : 81,
-                "hostId" : "1h2"
+                "hostId" : "1h8"
             }
         ],
         "accountId" : "1a5",
@@ -220,15 +220,15 @@ def update_load_balancer(routes):
         "description" : None,
         "kind" : "loadBalancerService",
         "fqdn" : "lb.galaxy.galaxians.org.",
-        "createdTS" : 1494108129000,
+        "createdTS" : 1498650695000,
         "stackId" : "1st19",
         "upgrade" : None,
         "currentScale" : 1,
-        "id" : "1s30"
+        "id" : "1s124"
     }
 
     resp = requests.put(
-        'https://rancher.galaxians.org/v2-beta/projects/1a5/loadbalancerservices/1s30',
+        'https://rancher.galaxians.org/v2-beta/projects/1a5/loadbalancerservices/1s124',
         auth=(RANCHER_ACCESS_KEY, RANCHER_SECRET_KEY),
         headers={
             'Accept': 'application/json',
