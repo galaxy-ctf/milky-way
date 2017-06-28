@@ -140,6 +140,8 @@ class ChalListView(ListView):
                 s.challenge.id: True
                 for s in Solves.objects.all().filter(team=self.request.user.account.team)
             }
+
+        context['team_count'] = Team.objects.all().count()
         context = add_dates(context)
         return context
 

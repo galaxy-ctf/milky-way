@@ -2,6 +2,7 @@
 
 {% load i18n %}
 {% load bootstrap3 %}
+{% load milkyway %}
 
 {% block breadcrumbs %}
 <ol class="breadcrumb">
@@ -21,7 +22,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for obj in object_list %}
+				{% for obj in object_list|sort_by_score %}
 				<tr>
 					<td><a href="{% url 'team-detail' obj.id %}">{{ obj.name }}</a></td>
 					<td>{{ obj.score }}</td>

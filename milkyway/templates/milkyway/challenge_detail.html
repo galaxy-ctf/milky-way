@@ -33,25 +33,46 @@
 			{% endif %}
 
 			<div class="col-sm-6">
-				<h4>About</h4>
-				<p>{{ object.description | redaction:request.user | safe}}</p>
-				<span class="label label-success">points={{ object.value }}</span>
-				<span class="label label-success">category={{ object.category.name }}</span>
-				{% if hints.count > 0 and competition_active %}
-				<h4>Hints</h4>
-				{% for hint in hints %}
-					<button class="btn btn-secondary" onclick="javascript:$('#hint-{{ hint.id }}').css('visibility', 'initial')">
-						Hint {{ forloop.counter }}
-					</button>
-					<div id="hint-{{ hint.id }}" style="visibility: hidden; padding-top: 0.5em; padding-bottom: 0.5em;">
-						<div>{{ hint.text | safe }}</div>
-				{% endfor %}
+				<div class="row">
+					<div class="col-sm-12">
+						<h4>About</h4>
+						<p>{{ object.description | redaction:request.user | safe}}</p>
+						<span class="label label-success">points={{ object.value }}</span>
+						<span class="label label-success">category={{ object.category.name }}</span>
+						{% if hints.count > 0 and competition_active %}
+						<h4>Hints</h4>
+						{% for hint in hints %}
+							<button class="btn btn-secondary" onclick="javascript:$('#hint-{{ hint.id }}').css('visibility', 'initial')">
+								Hint {{ forloop.counter }}
+							</button>
+							<div id="hint-{{ hint.id }}" style="visibility: hidden; padding-top: 0.5em; padding-bottom: 0.5em;">
+								<div>{{ hint.text | safe }}</div>
+						{% endfor %}
 
-				{% for hint in object.hint_set.all %}
+						{% for hint in object.hint_set.all %}
+						</div>
+						{% endfor %}
+
+
+						{% endif %}
+					</div>
 				</div>
-				{% endfor %}
-
-
+				{% if object.solves_set.all.count > 0 %}
+				<hr />
+				<div class="row">
+					<div class="col-sm-12">
+						<h4>Solves</h4>
+						<table class="table table-striped">
+						{% for solve in object.solves_set.all %}
+							<tr>
+								<td>
+									<a href="{% url 'team-detail' solve.team.id %}">{{solve.team}}</a>
+								</td>
+							</tr>
+						{% endfor %}
+						</table>
+					</div>
+				</div>
 				{% endif %}
 			</div><!-- /.col-lg-4 -->
         </div>

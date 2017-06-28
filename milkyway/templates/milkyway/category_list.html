@@ -16,9 +16,16 @@
 		<div class="row">
 			{% for chal in obj.challenge_set.all %}
 				<a href="{% url 'chal-detail' chal.id %}">
-					<div class="col-sm-3 well" style="border: 1px solid grey; margin-left: 3em; margin-right: 3em;{% if chal.id in completed %}background: #222222{% endif %}">
+					<div class="col-sm-3 well" style="padding: 0px;border: 1px solid grey; margin-left: 3em; margin-right: 3em;{% if chal.id in completed %}background: #222222{% endif %}">
+						<div style="padding: 19px; padding-bottom: 10px;">
 						<h4>{{ chal.name }}</h4>
 						<p style="width:250px;white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">{{ chal.description | redaction:request.user }}</p>
+						</div>
+						<div class="progress" style="margin: 0; height: 10px;">
+							{% with chal.solves_set.all.count as count %}
+							<div class="progress-bar" style="width: {{ count | percent:team_count }}%"></div>
+							{% endwith %}
+						</div>
 					</div>
 				</a>
 			{% endfor %}

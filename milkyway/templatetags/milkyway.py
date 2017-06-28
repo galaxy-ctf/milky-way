@@ -17,3 +17,17 @@ def redaction(value, user): # Only one argument.
     value = re.sub(r'[a-z0-9]', '▆', value)
     value = re.sub(r'[^\s█▆]', '▇', value)
     return value
+
+
+@register.filter
+@stringfilter
+def percent(value, arg):
+    return int(100 * float(value) / float(arg))
+
+@register.filter
+def sort_by(queryset, order):
+    return queryset.order_by(order)
+
+@register.filter
+def sort_by_score(queryset):
+    return sorted(queryset, key=lambda x: -x.score)
