@@ -25,6 +25,7 @@ def get_env(team):
         "GALAXY_CONFIG_OVERRIDE_STATSD_PREFIX": "galaxy-all",
         "GALAXY_CONFIG_OVERRIDE_STATSD_HOST": "127.0.0.1",
         "GALAXY_CONFIG_OVERRIDE_STATSD_PORT": 8125,
+        "GALAXY_CONFIG_REQUIRE_LOGIN": "true",
         "TEAM_ID" : str(team.id),
         "TEAM_NAME" : team.name,
         "TEAM_PASSWORD": team.password,
